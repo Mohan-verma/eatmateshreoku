@@ -74,9 +74,9 @@ app.post("/users", multipleimages, async (req, res) => {
             emrelationship: req.body.emrelationship,
             ememail: req.body.ememail,
             emlanguage: req.body.emlanguage,
-            front: req.files.front[0]["filename"],
-            back: req.files.back[0]["filename"],
-            selfie: req.files.selfie[0]["filename"],
+            // front: req.files.front[0]["filename"],
+            // back: req.files.back[0]["filename"],
+            // selfie: req.files.selfie[0]["filename"],
 
 
 
