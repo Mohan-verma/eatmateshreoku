@@ -2,9 +2,10 @@
 const express = require('express')
 const multer = require('multer')
 require('./src/db/conn')
-const User = require('./src/models/userSchema')
+const { User, Emergency, IdProof, Selfie } = require('./src/models/userSchema')
 const PORT = process.env.PORT || 3000;
-const path = require('path')
+const path = require('path');
+const { create } = require('domain');
 
 
 app = express();
@@ -24,7 +25,8 @@ var storage = multer.diskStorage({
 var upload = multer({ storage: storage });
 
 
-var multipleimages = upload.fields([{ name: "front" }, { name: "back" }, { name: "selfie" }])
+
+var idimages = upload.fields([{ name: "front" }, { name: "back" }])
 
 //routes started 
 
@@ -32,10 +34,8 @@ var multipleimages = upload.fields([{ name: "front" }, { name: "back" }, { name:
 app.get("/", (req, res) => {
     res.send("HELLO THIS IS SERVER")
 })
-// app.get("/users", (req, res) => {
-//     User.find()
-//         .then(users => res.json(users))
-// })
+
+
 
 
 
@@ -43,73 +43,152 @@ app.get("/", (req, res) => {
 //post users
 
 
-app.post("/users", multipleimages, async (req, res) => {
+app.post("/users", (req, res) => {
 
-    // console.log(req.body)
-    // console.log("selfie", req.files.selfie[0].filename)
-    // if (req.files) {
-    //     console.log("this is files", req.files)
+    console.log("HELLO", req.body)
 
-    //     console.log("files uploaded")
-    // }
-
-    try {
-        // console.log(req.files)//(req.files["front", "back", "selfie"])
-        const user = new User({
-            firstname: req.body.firstname,
-            lastname: req.body.lastname,
-            // phonenumber: req.body.phonenumber,
-            // language: req.body.language,
-            // dob: req.body.dob,
-            // currency: req.body.currency,
-            // address: req.body.address,
-            // houseno: req.body.houseno,
-            // state: req.body.state,
-            // city: req.body.city,
-            // street: req.body.street,
-            // zipcode: req.body.zipcode,
-            // issuingcountry: req.body.issuingcountry,
-            // emname: req.body.emname,
-            // emnumber: req.body.emnumber,
-            // emrelationship: req.body.emrelationship,
-            // ememail: req.body.ememail,
-            // emlanguage: req.body.emlanguage,
-            // front: req.files.front[0]["filename"],
-            // back: req.files.back[0]["filename"],
-            // selfie: req.files.selfie[0]["filename"],
+    const user = new User({
+        phonenumber: req.body.phonenumber,
+        firstname: req.body.firstname,
+        lastname: req.body.lastname,
+        dob: req.body.dob,
+        language: {
+            lang: req.body.lang,
+            currency: req.body.currency
+        },
+        address: {
+            houseno: req.body.houseno,
+            street: req.body.street,
+            city: req.body.city,
+            state: req.body.state,
+            zipcode: req.body.zipcode,
+            country: req.body.country,
+        },
+    })
+    //user save
+    user.save().then((resolve) => {
+        console.log(resolve._id)
+        res.send({ message: "user registered", value: req.body, id: resolve._id })
 
 
 
 
+    })
+        .catch(err => {
+            console.log(err)
         })
-        const createuser = await user.save();
-        res.status(201).send("USER NUMBER REGISTERED")
-
-    }
-    catch (e) {
-        res.status(400).send(e)
-    }
-
 })
 
-//get users
+
+app.post("/idproof", idimages, (req, res) => {
+    console.log("Id details", req.body)
+    const idproof = new IdProof({
+        issu_country: req.body.issu_country,
+        type: req.body.type,
+        name: req.body.name,
+        front: req.files.front[0]["filename"],
+        back: req.files.back[0]["filename"],
+        user: req.body.user
+    })
+    idproof.save()
+        .then((response) => {
+            console.log(response)
+            res.send({ message: "proofs uploaded", value: req.files })
+        })
+        .catch(err => {
+            console.log(err)
+            res.send(err)
+        })
+})
+
+
+
+// selfie post
+
+app.post("/selfie", upload.single("selfie"), (req, res) => {
+    console.log("Id details", req.file)
+    const selfieup = new Selfie({
+        selfie: req.file["filename"],
+        user: req.body.user
+    })
+    selfieup.save()
+        .then((response) => {
+            console.log("selfie", response)
+            res.send({ message: "selfie uploaded", value: req.file })
+        })
+        .catch(err => {
+            console.log(err)
+            res.send(err)
+        })
+})
+
+//end
+
+//emergency post 
+app.post('/emergency', (req, res) => {
+    const emergency = new Emergency({
+
+        emergencyData: {
+            emname: req.body.emname,
+            emnumber: req.body.emnumber,
+            emrelationship: req.body.emrelationship,
+            ememail: req.body.ememail,
+            emlanguage: req.body.emlanguage,
+            user: req.body.user
+        }
+
+    })
+
+
+    //emergency save
+    emergency.save().then((resolve) => {
+        console.log("emergencydetails saved", resolve)
+
+        res.json(resolve)
+
+    }).catch(err => {
+        console.log("emergency", err)
+    })
+})
+//end 
+
+
+// //get users
 
 
 app.get('/users', async (req, res) => {
     try {
-        const usersdata = await User.find();
-        res.send(usersdata)
+        const alldata = await User.find()
+
+
+        res.send(alldata)
+
+
     }
     catch (e) {
         res.send(e)
     }
+    // try {
+    //     const emer = await Emergency.find().populate("user")
+
+
+    //     res.send(emer)
+
+
+    // }
+    // catch (e) {
+    //     res.send(e)
+    // }
+
+
+
 })
 
 // get by idd 
 app.get('/users/:id', async (req, res) => {
     try {
         const _id = req.params.id;
-        const userdata = await User.findById({ _id: _id })
+        const userdata = await Emergency.findById({ _id: _id })
         res.send(userdata)
 
     }
