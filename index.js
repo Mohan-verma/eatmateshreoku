@@ -20,7 +20,9 @@ app = express();
 app.use(express.json())
 
 //multer storage
-
+console.log(process.env.TWILIO_ACCOUNT_SID)
+console.log(process.env.TWILIO_AUTH_TOKEN)
+console.log(process.env.SECURITY)
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, "public/images")
