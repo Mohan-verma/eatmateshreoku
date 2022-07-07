@@ -1,11 +1,19 @@
 
 const express = require('express')
+require('dotenv').config()
 const multer = require('multer')
 require('./src/db/conn')
-const { User, Emergency, IdProof, Selfie } = require('./src/models/userSchema')
+const { User, Emergency, IdProof, Selfie, OtpNUmber } = require('./src/models/userSchema')
 const PORT = process.env.PORT || 3000;
 const path = require('path');
 const { create } = require('domain');
+
+//twilio
+const accountSid = process.env.TWILIO_ACCOUNT_SID;
+const authToken = process.env.TWILIO_AUTH_TOKEN;
+
+const client = require('twilio')(accountSid, authToken);
+//twilio client
 
 
 app = express();
@@ -39,6 +47,99 @@ app.get("/", (req, res) => {
 
 
 
+// sent opt to mobile number
+app.post("/login", (req, res) => {
+    const number = req.body.number;
+
+
+
+    if (number.length >= 13) {
+        // console.log(req.body)
+        const number = req.body.number;
+        const chann = "sms";
+        client
+            .verify
+            .services(process.env.SECURITY)
+            .verifications
+            .create({ to: number, channel: chann })
+            // then statement twilio
+            .then(data => {
+
+                res.send("otp sent")
+            })
+            // error login invalid number
+            .catch(err => {
+
+                res.status(400).send(err)
+            })
+    }
+
+    else {
+        console.log("number is invalid invalid format plz ensure that you have filled your country code as well as number")
+        res.send("number is invalid invalid format plz ensure that you have filled your country code as well as number")
+    }
+
+})
+
+
+
+// check verified code of number
+app.post("/verify", (req, res) => {
+
+
+
+
+
+    const number = req.body.number;
+
+    const codes = req.body.code;
+
+
+
+    client.verify.services(process.env.SECURITY)
+        .verificationChecks
+        .create({ to: number, code: codes })
+
+
+        .then(verification_check => {
+
+
+
+            if (verification_check.status === "pending") {
+                res.send("invalid OTP generate otp again")
+            }
+            else {
+
+                const otpdata = new OtpNUmber({
+                    Phonenumber: req.body.number,
+                    status: verification_check.status,
+                })
+                otpdata.save({
+                    Phonenumber: req.body.number
+                })
+                    .then(response => {
+                        // const phone_id = response._id
+                        // console.log(phone_id)
+                        res.status(201).send({ Phone_id: response, message: "user save" })
+
+                    }).catch(err => {
+                        res.send(err)
+                    })
+            }
+
+        })
+        //error verification
+        .catch(err => {
+            console.log(err)
+            if (err.status === 404)
+                res.send("invalid otp")
+
+
+        });
+
+
+})
+
 
 
 
@@ -50,7 +151,7 @@ app.post("/users", (req, res) => {
     console.log("HELLO", req.body)
 
     const user = new User({
-        phonenumber: req.body.phonenumber,
+        phoneNo: req.body.phoneNo,
         firstname: req.body.firstname,
         lastname: req.body.lastname,
         dob: req.body.dob,
@@ -70,7 +171,7 @@ app.post("/users", (req, res) => {
     //user save
     user.save().then((resolve) => {
         console.log(resolve._id)
-        res.send({ message: "user registered", value: req.body, id: resolve._id })
+        res.send({ message: "user registered", value: req.body, userid: resolve._id })
 
 
 
@@ -135,8 +236,10 @@ app.post('/emergency', (req, res) => {
             emnumber: req.body.emnumber,
             emrelationship: req.body.emrelationship,
             ememail: req.body.ememail,
+
             emlanguage: req.body.emlanguage,
-            user: req.body.user
+            // user: req.body.user,
+            phoneNo: req.body.phoneNo,
         }
 
     })
