@@ -150,7 +150,7 @@ const emegencySchema = new mongoose.Schema({
 
 
 
-const OtpNUmber = new mongoose.model("Phonenumber", phonenumberSchema)
+
 const User = new mongoose.model('User', userSchema)
 const Emergency = new mongoose.model('Emergency', emegencySchema);
 const IdProof = new mongoose.model('IdProof', idProof);
