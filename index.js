@@ -3,7 +3,7 @@ const express = require('express')
 require('dotenv').config()
 const multer = require('multer')
 require('./src/db/conn')
-const { User, Emergency, IdProof, Selfie, OtpNUmber } = require('./src/models/userSchema')
+const { User, Emergency, IdProof, Selfie } = require('./src/models/userSchema')
 const PORT = process.env.PORT || 3000;
 const path = require('path');
 const { create } = require('domain');
