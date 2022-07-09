@@ -43,9 +43,13 @@ const allpaths = `<br>/idproof (for id add) <br> /users (to post user data) <br>
 //routes started 
 
 // default page
+// app.get("/", (req, res) => {
+//     res.send(`THIS IS SERVER FOR EAT paths to post ${allpaths}`)
+// })
 app.get("/", (req, res) => {
-    res.send(`THIS IS SERVER FOR EAT paths to post ${allpaths}`)
+    res.send(`THIS IS SERVER FOR EAT paths to post `)
 })
+
 
 
 
