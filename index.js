@@ -50,10 +50,11 @@ app.get("/", (req, res) => {
 
 
 // sent opt to mobile number
+
 app.post("/login", (req, res) => {
     const number = req.body.number;
 
-
+    console.log("number", number)
 
     if (number.length >= 13) {
         // console.log(req.body)
@@ -66,7 +67,7 @@ app.post("/login", (req, res) => {
             .create({ to: number, channel: chann })
             // then statement twilio
             .then(data => {
-
+                console.log(data)
                 res.send("otp sent")
             })
             // error login invalid number
@@ -86,23 +87,15 @@ app.post("/login", (req, res) => {
 
 
 // check verified code of number
-app.post("/verify", (req, res) => {
-
-
-
-
+app.post('/verify', (req, res) => {
 
     const number = req.body.number;
 
     const codes = req.body.code;
 
-
-
     client.verify.services(process.env.SECURITY)
         .verificationChecks
         .create({ to: number, code: codes })
-
-
         .then(verification_check => {
 
 
@@ -112,48 +105,52 @@ app.post("/verify", (req, res) => {
             }
             else {
 
-                const otpdata = new OtpNUmber({
-                    Phonenumber: req.body.number,
-                    status: verification_check.status,
-                })
-                otpdata.save({
-                    Phonenumber: req.body.number
-                })
-                    .then(response => {
-                        // const phone_id = response._id
-                        // console.log(phone_id)
-                        res.status(201).send({ Phone_id: response, message: "user save" })
 
-                    }).catch(err => {
-                        res.send(err)
+                const user = new User({
+                    phoneNo: req.body.number,
+                })
+
+
+                user.save()
+                    .then((resolve) => {
+                        res.status(201).send({ message: " number registered", resolve })
+                    })
+
+                    .catch((err) => {
+
+
+                        User.find({ phoneNo: req.body.number }, function (err, docs) {
+                            if (err) {
+                                console.log(err);
+                            }
+                            else {
+                                console.log("First function call : ", docs);
+                                res.send(docs)
+                            }
+
+                        });
+
+
                     })
             }
 
         })
-        //error verification
-        .catch(err => {
-            console.log(err)
-            if (err.status === 404)
-                res.send("invalid otp")
 
 
-        });
 
 
 })
 
 
 
-
 //post users
 
 
-app.post("/users", (req, res) => {
+app.put("/user-details", (req, res) => {
+    user_id = req.body.numberid;
 
-    console.log("HELLO", req.body)
+    User.findByIdAndUpdate(user_id, {
 
-    const user = new User({
-        phoneNo: req.body.phoneNo,
         firstname: req.body.firstname,
         lastname: req.body.lastname,
         dob: req.body.dob,
@@ -169,20 +166,19 @@ app.post("/users", (req, res) => {
             zipcode: req.body.zipcode,
             country: req.body.country,
         },
-    })
-    //user save
-    user.save().then((resolve) => {
-        console.log(resolve._id)
-        res.send({ message: "user registered", value: req.body, userid: resolve._id })
 
-
-
-
-    })
-        .catch(err => {
-            console.log(err)
-        })
+    },
+        function (err, docs) {
+            if (err) {
+                console.log(err)
+            }
+            else {
+                console.log("Updated User : ", docs);
+                res.send({ message: "user registered", docs })
+            }
+        });
 })
+
 
 
 app.post("/idproof", idimages, (req, res) => {
@@ -263,65 +259,11 @@ app.post('/emergency', (req, res) => {
 // //get users
 
 
-app.get('/users', async (req, res) => {
-    try {
-        const alldata = await User.find()
-
-
-        res.send(alldata)
-
-
-    }
-    catch (e) {
-        res.send(e)
-    }
-    // try {
-    //     const emer = await Emergency.find().populate("user")
-
-
-    //     res.send(emer)
-
-
-    // }
-    // catch (e) {
-    //     res.send(e)
-    // }
 
 
 
-})
-
-// get by idd 
-app.get('/users/:id', async (req, res) => {
-    try {
-        const _id = req.params.id;
-        const userdata = await Emergency.findById({ _id: _id })
-        res.send(userdata)
-
-    }
-    catch (e) {
-        res.send(e)
-    }
-})
 
 
-
-// delete
-app.delete('/users/:id', async (req, res) => {
-    try {
-
-        const deleteuser = await User.findByIdAndDelete(req.params.id)
-        if (!req.params.id) {
-            return res.status(400).send();
-        }
-        res.send(deleteuser)
-
-
-    }
-    catch (e) {
-        res.send(e)
-    }
-})
 app.listen(PORT, () => {
     console.log(`you are listening to ${PORT}`)
 })
