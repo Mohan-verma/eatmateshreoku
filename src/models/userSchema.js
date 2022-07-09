@@ -155,4 +155,4 @@ const User = new mongoose.model('User', userSchema)
 const Emergency = new mongoose.model('Emergency', emegencySchema);
 const IdProof = new mongoose.model('IdProof', idProof);
 const Selfie = new mongoose.model('Selfie', selfieSchema)
-module.exports = { User, Emergency, IdProof, Selfie, OtpNUmber };
+module.exports = { User, Emergency, IdProof, Selfie };
