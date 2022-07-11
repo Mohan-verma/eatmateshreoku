@@ -138,7 +138,7 @@ app.post('/verify', (req, res) => {
 
                     .catch((err) => {
                         const error = err;
-
+                        console.log(error)
                         User.find({ phoneNo: req.body.number }, function (err, docs) {
                             if (err) {
                                 console.log(err);
