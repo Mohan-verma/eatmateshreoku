@@ -137,7 +137,7 @@ app.post('/verify', (req, res) => {
                     })
 
                     .catch((err) => {
-
+                        const error = err;
 
                         User.find({ phoneNo: req.body.number }, function (err, docs) {
                             if (err) {
@@ -145,7 +145,7 @@ app.post('/verify', (req, res) => {
                             }
                             else {
                                 console.log("First function call : ", docs);
-                                res.send({ message: "User already exist ", docs })
+                                res.send({ message: "User already exist ", docs, error })
                             }
 
                         });
