@@ -139,13 +139,13 @@ app.post('/verify', (req, res) => {
                     .catch((err) => {
                         const error = err;
                         console.log(error)
-                        User.find({ phoneNo: req.body.number }, function (err, docs) {
+                        User.find({ phoneNo: req.body.number }, function (err, data) {
                             if (err) {
                                 console.log(err);
                             }
                             else {
-                                console.log("First function call : ", docs);
-                                res.send({ message: "User already exist ", docs, error })
+                                console.log("First function call : ", data);
+                                res.send({ message: "User already exist ", data, error })
                             }
 
                         });
