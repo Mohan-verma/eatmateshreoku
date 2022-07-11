@@ -60,8 +60,55 @@ const userSchema = new mongoose.Schema({
             type: String,
 
         },
+    },
+    emergencyData: {
+        emname: {
+            type: String,
 
-    }
+        },
+        emnumber: {
+            type: String,
+
+        },
+        emrelationship: {
+            type: String,
+
+        },
+        ememail: {
+            type: String,
+
+        },
+        emlanguage: {
+            type: String,
+
+        },
+    },
+    idProof: {
+        issu_country: {
+            type: String,
+
+        },
+        type: {
+            type: String,
+
+        },
+        name: {
+            type: String,
+
+        },
+        front: {
+            type: String,
+
+        },
+        back: {
+            type: String,
+
+        },
+    },
+    selfie: {
+        type: String
+    },
+
 })
 
 const idProof = new mongoose.Schema({
