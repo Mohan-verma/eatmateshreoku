@@ -147,14 +147,7 @@ const selfieSchema = new mongoose.Schema({
     selfie: {
         type: String
     },
-    user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
-    },
-    phoneNo: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Phonenumber"
-    },
+
 })
 
 

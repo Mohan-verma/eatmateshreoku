@@ -229,24 +229,23 @@ app.put("/user-details", idimages, (req, res) => {
 
 
 
-// selfie post
 
-// app.post("/selfie", upload.single("selfie"), (req, res) => {
-//     console.log("Id details", req.file)
-//     const selfieup = new Selfie({
-//         selfie: req.file["filename"],
-//         user: req.body.user
-//     })
-//     selfieup.save()
-//         .then((response) => {
-//             console.log("selfie", response)
-//             res.send({ message: "selfie uploaded", value: req.file })
-//         })
-//         .catch(err => {
-//             console.log(err)
-//             res.send(err)
-//         })
-// })
+app.post("/selfie", idimages, (req, res) => {
+    console.log("Id details", req.file)
+    const selfieup = new Selfie({
+        selfie: req.files.selfie[0]["filename"],
+        user: req.body.user
+    })
+    selfieup.save()
+        .then((response) => {
+            console.log("selfie", response)
+            res.send({ message: "selfie uploaded", value: req.file })
+        })
+        .catch(err => {
+            console.log(err)
+            res.send(err)
+        })
+})
 
 //end
 
