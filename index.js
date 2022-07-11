@@ -7,6 +7,7 @@ const { User, Emergency, IdProof, Selfie } = require('./src/models/userSchema')
 const PORT = process.env.PORT || 3000;
 const path = require('path');
 const { create } = require('domain');
+const fs = require("fs");
 
 //twilio
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
@@ -18,6 +19,21 @@ const client = require('twilio')(accountSid, authToken);
 
 app = express();
 app.use(express.json())
+
+//make folder
+
+
+var list = ""
+
+
+var dir = "public";
+var subDirectory = "public/images";
+
+if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir);
+
+    fs.mkdirSync(subDirectory);
+}
 
 //multer storage
 console.log(process.env.TWILIO_ACCOUNT_SID)
