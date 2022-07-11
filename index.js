@@ -38,17 +38,17 @@ var upload = multer({ storage: storage });
 
 var idimages = upload.fields([{ name: "front" }, { name: "back" }, { name: "selfie" }])
 
-const allpaths = `<br>/idproof (for id add) <br> /users (to post user data) <br> /selfie (to post selfie photos) <br> /emergency (to emergency details)`
+const allpaths = `<br>/user-details (update user info) <br> /login (to register phone numberand get otp) <br> /verify (verify otp) <br> /emergency (to emergency details)`
 
 //routes started 
 
 // default page
-// app.get("/", (req, res) => {
-//     res.send(`THIS IS SERVER FOR EAT paths to post ${allpaths}`)
-// })
 app.get("/", (req, res) => {
-    res.send(`THIS IS SERVER FOR EAT paths to post `)
+    res.send(`THIS IS SERVER FOR EAT paths to post ${allpaths}`)
 })
+// app.get("/", (req, res) => {
+//     res.send(`THIS IS SERVER FOR EAT paths to post `)
+// })
 
 
 
