@@ -238,7 +238,7 @@ app.put("/user-details", idimages, (req, res) => {
     user_id = req.body.numberid;
     // console.log(user_id)
     // console.log(req.files)
-    console.log(req.body)
+    console.log("hello", req.body)
 
     User.findByIdAndUpdate(user_id, {
 
