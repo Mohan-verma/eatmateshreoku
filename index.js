@@ -177,8 +177,9 @@ app.post('/verify', (req, res) => {
                     console.log(err);
                 }
                 else {
-                    console.log("First function call : ", data);
-                    res.status(200).send({ message: "User already exist ", data })
+                    console.log("First function call : ", data[0]);
+                    const userdetail = data[0];
+                    res.status(200).send({ message: "User already exist ", userdetail })
                 }
 
             });
@@ -238,6 +239,7 @@ app.put("/user-details", idimages, (req, res) => {
     user_id = req.body.numberid;
     // console.log(user_id)
     // console.log(req.files)
+    console.log("hello", req.body)
     console.log("hello", req.body)
 
     User.findByIdAndUpdate(user_id, {
