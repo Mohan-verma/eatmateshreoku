@@ -145,8 +145,10 @@ app.post('/verify', (req, res) => {
                             }
                             else {
                                 console.log("First function call : ", data[0]);
+                                console.log("we are here")
                                 const userdetail = data[0];
                                 res.status(200).send({ message: "User already exist ", userdetail })
+                                console.log("we are done")
                             }
 
                         });
