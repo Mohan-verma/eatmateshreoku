@@ -193,6 +193,48 @@ app.post('/verify', (req, res) => {
 
 
 app.put("/user-details", idimages, (req, res) => {
+    // user_id = req.body.numberid;
+    // // console.log(user_id)
+    // console.log(req.files)
+    // console.log(req.body)
+
+    // User.findByIdAndUpdate(user_id, {
+
+    //     firstname: req.body.firstname,
+    //     lastname: req.body.lastname,
+    //     dob: req.body.dob,
+    //     language: {
+    //         lang: req.body.lang,
+    //         currency: req.body.currency
+    //     },
+    //     address: {
+    //         houseno: req.body.houseno,
+    //         street: req.body.street,
+    //         city: req.body.city,
+    //         state: req.body.state,
+    //         zipcode: req.body.zipcode,
+    //         country: req.body.country,
+    //     },
+    //     emergencyData: {
+    //         emname: req.body.emname,
+    //         emnumber: req.body.emnumber,
+    //         emrelationship: req.body.emrelationship,
+    //         ememail: req.body.ememail,
+    //         emlanguage: req.body.emlanguage,
+
+    //     },
+    //     idproof: {
+    //         issu_country: req.body.issu_country,
+    //         type: req.body.type,
+    //         name: req.body.name,
+    //         front: req.files.front[0]["filename"],
+    //         back: req.files.back[0]["filename"],
+    //         // user: req.body.user
+
+    //     },
+    //     selfie: req.files.selfie[0]["filename"],
+
+    // },
     user_id = req.body.numberid;
     // console.log(user_id)
     console.log(req.files)
@@ -200,33 +242,33 @@ app.put("/user-details", idimages, (req, res) => {
 
     User.findByIdAndUpdate(user_id, {
 
-        firstname: req.body.firstname,
-        lastname: req.body.lastname,
+        firstname: req.body._firstname,
+        lastname: req.body._lastname,
         dob: req.body.dob,
         language: {
-            lang: req.body.lang,
-            currency: req.body.currency
+            lang: req.body._lang,
+            currency: req.body._currency
         },
         address: {
-            houseno: req.body.houseno,
-            street: req.body.street,
-            city: req.body.city,
-            state: req.body.state,
-            zipcode: req.body.zipcode,
-            country: req.body.country,
+            houseno: req.body._houseno,
+            street: req.body._street,
+            city: req.body._city,
+            state: req.body._state,
+            zipcode: req.body._zipcode,
+            country: req.body._country,
         },
         emergencyData: {
-            emname: req.body.emname,
-            emnumber: req.body.emnumber,
-            emrelationship: req.body.emrelationship,
-            ememail: req.body.ememail,
-            emlanguage: req.body.emlanguage,
+            emname: req.body._emname,
+            emnumber: req.body._emnumber,
+            emrelationship: req.body._emrelationship,
+            ememail: req.body._ememail,
+            emlanguage: req.body._emlanguage,
 
         },
         idproof: {
             issu_country: req.body.issu_country,
-            type: req.body.type,
-            name: req.body.name,
+            type: req.body._type,
+            name: req.body._name,
             front: req.files.front[0]["filename"],
             back: req.files.back[0]["filename"],
             // user: req.body.user
