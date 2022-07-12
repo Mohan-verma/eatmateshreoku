@@ -277,13 +277,13 @@ app.put("/user-details", idimages, (req, res) => {
         // selfie: req.files.selfie[0]["filename"],
 
     },
-        function (err, docs) {
+        function (err, data) {
             if (err) {
                 console.log(err)
             }
             else {
-                console.log("Updated User : ", docs);
-                res.send({ message: "user registered", docs })
+                console.log("Updated User : ", data);
+                res.send({ message: "user registered", data })
             }
         });
 })
