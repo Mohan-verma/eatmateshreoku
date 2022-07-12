@@ -237,14 +237,14 @@ app.put("/user-details", idimages, (req, res) => {
     // },
     user_id = req.body.numberid;
     // console.log(user_id)
-    console.log(req.files)
+    // console.log(req.files)
     console.log(req.body)
 
     User.findByIdAndUpdate(user_id, {
 
         firstname: req.body._firstname,
         lastname: req.body._lastname,
-        dob: req.body.dob,
+        // dob: req.body.dob,
         language: {
             lang: req.body._lang,
             currency: req.body._currency
@@ -269,12 +269,12 @@ app.put("/user-details", idimages, (req, res) => {
             issu_country: req.body.issu_country,
             type: req.body._type,
             name: req.body._name,
-            front: req.files.front[0]["filename"],
-            back: req.files.back[0]["filename"],
+            // front: req.files.front[0]["filename"],
+            // back: req.files.back[0]["filename"],
             // user: req.body.user
 
         },
-        selfie: req.files.selfie[0]["filename"],
+        // selfie: req.files.selfie[0]["filename"],
 
     },
         function (err, docs) {
