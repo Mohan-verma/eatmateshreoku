@@ -76,31 +76,31 @@ app.post("/login", (req, res) => {
 
     console.log("number", number)
     res.send({ from: "login screens", message: number })
-    // if (number.length >= 13) {
-    //     // console.log(req.body)
-    //     const number = req.body.number;
-    //     const chann = "sms";
-    //     client
-    //         .verify
-    //         .services(process.env.SECURITY)
-    //         .verifications
-    //         .create({ to: number, channel: chann })
-    //         // then statement twilio
-    //         .then(data => {
-    //             console.log(data)
-    //             res.send("otp sent")
-    //         })
-    //         // error login invalid number
-    //         .catch(err => {
+    if (number.length >= 13) {
+        // console.log(req.body)
+        const number = req.body.number;
+        const chann = "sms";
+        client
+            .verify
+            .services(process.env.SECURITY)
+            .verifications
+            .create({ to: number, channel: chann })
+            // then statement twilio
+            .then(data => {
+                console.log(data)
+                res.send("otp sent")
+            })
+            // error login invalid number
+            .catch(err => {
 
-    //             res.status(400).send(err)
-    //         })
-    // }
+                res.status(400).send(err)
+            })
+    }
 
-    // else {
-    //     console.log("number is invalid invalid format plz ensure that you have filled your country code as well as number")
-    //     res.send("number is invalid invalid format plz ensure that you have filled your country code as well as number")
-    // }
+    else {
+        console.log("number is invalid invalid format plz ensure that you have filled your country code as well as number")
+        res.send("number is invalid invalid format plz ensure that you have filled your country code as well as number")
+    }
 
 })
 
@@ -113,78 +113,76 @@ app.post('/verify', (req, res) => {
 
     const codes = req.body.code;
 
-    // client.verify.services(process.env.SECURITY)
-    //     .verificationChecks
-    //     .create({ to: number, code: codes })
-    //     .then(verification_check => {
+    client.verify.services(process.env.SECURITY)
+        .verificationChecks
+        .create({ to: number, code: codes })
+        .then(verification_check => {
 
 
 
-    //         if (verification_check.status === "pending") {
-    //             res.send("invalid OTP generate otp again")
-    //         }
-    //         else {
+            if (verification_check.status === "pending") {
+                res.send("invalid OTP generate otp again")
+            }
+            else {
 
 
-    //             const user = new User({
-    //                 phoneNo: req.body.number,
-    //             })
+                const user = new User({
+                    phoneNo: req.body.number,
+                })
+                user.save()
+                    .then((resolve) => {
+                        console.log("usernew")
 
+                        res.status(201).send({ message: " number registered", data: resolve })
+                    })
+                    .catch((err) => {
+                        const error = err;
+                        console.log(error)
+                        User.find({ phoneNo: req.body.number }, function (err, data) {
 
-    //             user.save()
-    //                 .then((resolve) => {
+                            if (err) {
+                                console.log(err);
+                            }
+                            else {
+                                console.log("First function call : ", data[0]);
+                                const userdetail = data[0];
+                                res.status(200).send({ message: "User already exist ", userdetail })
+                            }
 
-    //                     res.status(201).send({ message: " number registered", resolve })
-    //                 })
+                        });
 
-    //                 .catch((err) => {
-    //                     const error = err;
-    //                     console.log(error)
-    //                     User.find({ phoneNo: req.body.number }, function (err, data) {
+                    })
+            }
 
-    //                         if (err) {
-    //                             console.log(err);
-    //                         }
-    //                         else {
-    //                             console.log("First function call : ", data);
-    //                             res.status(200).send({ message: "User already exist ", data })
-    //                         }
+        })
+    // console.log(codes)
 
-    //                     });
+    // const user = new User({
+    //     phoneNo: req.body.number,
+    // })
+    // user.save()
+    //     .then((resolve) => {
+    //         console.log("usernew")
 
+    //         res.status(201).send({ message: " number registered", data: resolve })
+    //     })
+    //     .catch((err) => {
+    //         const error = err;
+    //         console.log(error)
+    //         User.find({ phoneNo: req.body.number }, function (err, data) {
 
-    //                 })
-    //         }
+    //             if (err) {
+    //                 console.log(err);
+    //             }
+    //             else {
+    //                 console.log("First function call : ", data[0]);
+    //                 const userdetail = data[0];
+    //                 res.status(200).send({ message: "User already exist ", userdetail })
+    //             }
+
+    //         });
 
     //     })
-    console.log(codes)
-
-    const user = new User({
-        phoneNo: req.body.number,
-    })
-    user.save()
-        .then((resolve) => {
-            console.log("usernew")
-
-            res.status(201).send({ message: " number registered", data: resolve })
-        })
-        .catch((err) => {
-            const error = err;
-            console.log(error)
-            User.find({ phoneNo: req.body.number }, function (err, data) {
-
-                if (err) {
-                    console.log(err);
-                }
-                else {
-                    console.log("First function call : ", data[0]);
-                    const userdetail = data[0];
-                    res.status(200).send({ message: "User already exist ", userdetail })
-                }
-
-            });
-
-        })
 
 })
 
