@@ -164,8 +164,9 @@ app.post('/verify', (req, res) => {
     })
     user.save()
         .then((resolve) => {
+            console.log("usernew")
 
-            res.status(201).send({ message: " number registered", data })
+            res.status(201).send({ message: " number registered", data: resolve })
         })
         .catch((err) => {
             const error = err;
