@@ -75,32 +75,32 @@ app.post("/login", (req, res) => {
     const number = req.body.number;
 
     console.log("number", number)
+    res.send({ from: "login screens", message: number })
+    // if (number.length >= 13) {
+    //     // console.log(req.body)
+    //     const number = req.body.number;
+    //     const chann = "sms";
+    //     client
+    //         .verify
+    //         .services(process.env.SECURITY)
+    //         .verifications
+    //         .create({ to: number, channel: chann })
+    //         // then statement twilio
+    //         .then(data => {
+    //             console.log(data)
+    //             res.send("otp sent")
+    //         })
+    //         // error login invalid number
+    //         .catch(err => {
 
-    if (number.length >= 13) {
-        // console.log(req.body)
-        const number = req.body.number;
-        const chann = "sms";
-        client
-            .verify
-            .services(process.env.SECURITY)
-            .verifications
-            .create({ to: number, channel: chann })
-            // then statement twilio
-            .then(data => {
-                console.log(data)
-                res.send("otp sent")
-            })
-            // error login invalid number
-            .catch(err => {
+    //             res.status(400).send(err)
+    //         })
+    // }
 
-                res.status(400).send(err)
-            })
-    }
-
-    else {
-        console.log("number is invalid invalid format plz ensure that you have filled your country code as well as number")
-        res.send("number is invalid invalid format plz ensure that you have filled your country code as well as number")
-    }
+    // else {
+    //     console.log("number is invalid invalid format plz ensure that you have filled your country code as well as number")
+    //     res.send("number is invalid invalid format plz ensure that you have filled your country code as well as number")
+    // }
 
 })
 
@@ -165,7 +165,7 @@ app.post('/verify', (req, res) => {
     user.save()
         .then((resolve) => {
 
-            res.status(201).send({ message: " number registered", resolve })
+            res.status(201).send({ message: " number registered", data })
         })
         .catch((err) => {
             const error = err;
