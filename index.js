@@ -118,7 +118,7 @@ app.post('/verify', (req, res) => {
         .create({ to: number, code: codes })
         .then(verification_check => {
 
-
+            console.log(verification_check)
 
             if (verification_check.status === "pending") {
                 res.send("invalid OTP generate otp again")
@@ -157,6 +157,9 @@ app.post('/verify', (req, res) => {
                     })
             }
 
+        })
+        .catch((err) => {
+            console.log(err)
         })
     // console.log(codes)
 
