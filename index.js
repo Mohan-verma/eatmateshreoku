@@ -121,8 +121,9 @@ app.post('/verify', (req, res) => {
 
 
             if (verification_check.status === "pending") {
-                res.status(401).send("invalid OTP generate otp again")
+                res.send("invalid OTP generate otp again")
             }
+
             else {
 
 
