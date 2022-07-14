@@ -185,6 +185,213 @@ const emegencySchema = new mongoose.Schema({
         },
     }
 })
+const googleSign = new mongoose.Schema({
+    gtoken: {
+        type: String,
+        unique: [true, "already exist"]
+    },
+    language: {
+        lang: {
+            type: String,
+
+
+        },
+        currency: {
+            type: String,
+
+
+        }
+    },
+    dob: {
+        type: Date,
+
+    },
+
+    firstname: {
+        type: String,
+
+        minlength: 3
+    },
+    lastname: {
+        type: String,
+
+        minlength: 3
+    },
+    address: {
+        houseno: {
+            type: String,
+
+        },
+        street: {
+            type: String,
+
+        },
+        city: {
+            type: String,
+
+        },
+        state: {
+            type: String,
+
+        },
+        zipcode: {
+            type: String,
+
+        },
+        country: {
+            type: String,
+
+        },
+    },
+    emergencyData: {
+        emname: {
+            type: String,
+
+        },
+        emnumber: {
+            type: String,
+
+        },
+        emrelationship: {
+            type: String,
+
+        },
+        ememail: {
+            type: String,
+
+        },
+        emlanguage: {
+            type: String,
+
+        },
+    },
+    idProof: {
+        issu_country: {
+            type: String,
+
+        },
+        type: {
+            type: String,
+
+        },
+        name: {
+            type: String,
+
+        },
+        front: {
+            type: String,
+
+        },
+        back: {
+            type: String,
+
+        },
+    },
+})
+const facebooksign = new mongoose.Schema({
+    ftoken: {
+        type: String,
+        unique: [true, "already exist"]
+    },
+    language: {
+        lang: {
+            type: String,
+
+
+        },
+        currency: {
+            type: String,
+
+
+        }
+    },
+    dob: {
+        type: Date,
+
+    },
+
+    firstname: {
+        type: String,
+
+        minlength: 3
+    },
+    lastname: {
+        type: String,
+
+        minlength: 3
+    },
+    address: {
+        houseno: {
+            type: String,
+
+        },
+        street: {
+            type: String,
+
+        },
+        city: {
+            type: String,
+
+        },
+        state: {
+            type: String,
+
+        },
+        zipcode: {
+            type: String,
+
+        },
+        country: {
+            type: String,
+
+        },
+    },
+    emergencyData: {
+        emname: {
+            type: String,
+
+        },
+        emnumber: {
+            type: String,
+
+        },
+        emrelationship: {
+            type: String,
+
+        },
+        ememail: {
+            type: String,
+
+        },
+        emlanguage: {
+            type: String,
+
+        },
+    },
+    idProof: {
+        issu_country: {
+            type: String,
+
+        },
+        type: {
+            type: String,
+
+        },
+        name: {
+            type: String,
+
+        },
+        front: {
+            type: String,
+
+        },
+        back: {
+            type: String,
+
+        },
+    },
+})
+
 
 
 
@@ -195,4 +402,7 @@ const User = new mongoose.model('User', userSchema)
 const Emergency = new mongoose.model('Emergency', emegencySchema);
 const IdProof = new mongoose.model('IdProof', idProof);
 const Selfie = new mongoose.model('Selfie', selfieSchema)
-module.exports = { User, Emergency, IdProof, Selfie };
+const GoogleSign = new mongoose.model('googleuser', googleSign)
+const FacebookSign = new mongoose.model('facebookuser', facebooksign)
+
+module.exports = { User, Emergency, IdProof, Selfie, GoogleSign, FacebookSign };

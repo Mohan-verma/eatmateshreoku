@@ -3,7 +3,7 @@ const express = require('express')
 require('dotenv').config()
 const multer = require('multer')
 require('./src/db/conn')
-const { User, Emergency, IdProof, Selfie } = require('./src/models/userSchema')
+const { User, Emergency, IdProof, Selfie, GoogleSign, FacebookSign } = require('./src/models/userSchema')
 const PORT = process.env.PORT || 3000;
 const path = require('path');
 const { create } = require('domain');
@@ -67,6 +67,90 @@ app.get("/", (req, res) => {
 // })
 
 
+//google registeration
+app.post("/google", (req, res) => {
+
+    // console.log(`thise is req  ${req.body.number}`)
+
+    const tokenserve = req.body.token
+
+    // res.send({ message: number })
+
+
+    const token = new GoogleSign({
+        gtoken: req.body.token
+    })
+
+
+
+
+    token.save()
+        .then((done) => res.send({ message: done }))
+        .catch(err => {
+            // res.send({ code: err })
+
+            GoogleSign.find({ phoneNo: req.body.number }, function (err, data) {
+
+                if (err) {
+                    console.log(err);
+                }
+                else {
+                    console.log("First function call : ", data[0]);
+                    console.log("we are here")
+                    const userdetail = data[0];
+                    res.status(200).send({ message: "User already exist ", userdetail })
+                    console.log("we are done")
+                }
+
+            });
+
+        })
+
+
+})
+
+//facebook registration and login
+
+app.post("/facebook", (req, res) => {
+
+    // console.log(`thise is req  ${req.body.number}`)
+    console.log(req.body)
+    // const number = req.body.ftoken
+
+    // res.send({ message: number })
+
+
+    const facebookuser = new FacebookSign({
+        ftoken: req.body.facetoken
+    })
+
+
+
+
+    facebookuser.save()
+        .then((done) => res.send({ message: done }))
+        .catch(err => {
+            console.log(err)
+            FacebookSign.find({ phoneNo: req.body.number }, function (err, data) {
+
+                if (err) {
+                    console.log(err);
+                }
+                else {
+                    console.log("First function call : ", data[0]);
+                    console.log("we are here")
+                    const userdetail = data[0];
+                    res.status(200).send({ message: "User already exist ", userdetail })
+                    console.log("we are done")
+                }
+
+            });
+
+
+        })
+
+
+})
 
 
 // sent opt to mobile number
@@ -316,6 +400,118 @@ app.put("/user-details", idimages, (req, res) => {
 // })
 
 
+//google details update
+app.put("/google-details", (req, res) => {
+
+    user_id = req.body.regid;
+    // console.log(user_id)
+    // console.log(req.files)
+    console.log("hello", req.body)
+    console.log("hello", req.body)
+
+    GoogleSign.findByIdAndUpdate(user_id, {
+
+        firstname: req.body._firstname,
+        lastname: req.body._lastname,
+        // dob: req.body.dob,
+        language: {
+            lang: req.body._lang,
+            currency: req.body._currency
+        },
+        address: {
+            houseno: req.body._houseno,
+            street: req.body._street,
+            city: req.body._city,
+            state: req.body._state,
+            zipcode: req.body._zipcode,
+            country: req.body._country,
+        },
+        emergencyData: {
+            emname: req.body._emname,
+            emnumber: req.body._emnumber,
+            emrelationship: req.body._emrelationship,
+            ememail: req.body._ememail,
+            emlanguage: req.body._emlanguage,
+
+        },
+        idproof: {
+            issu_country: req.body.issu_country,
+            type: req.body._type,
+            name: req.body._name,
+            // front: req.files.front[0]["filename"],
+            // back: req.files.back[0]["filename"],
+            // user: req.body.user
+
+        },
+        // selfie: req.files.selfie[0]["filename"],
+
+    },
+        function (err, data) {
+            if (err) {
+                console.log(err)
+            }
+            else {
+                console.log("Updated User : ", data);
+                res.send({ message: "user registered", data })
+            }
+        });
+})
+
+app.put("/facebook-details", (req, res) => {
+
+    user_id = req.body.regid;
+    // console.log(user_id)
+    // console.log(req.files)
+    console.log("hello", req.body)
+    console.log("hello", req.body)
+
+    FacebookSign.findByIdAndUpdate(user_id, {
+
+        firstname: req.body._firstname,
+        lastname: req.body._lastname,
+        // dob: req.body.dob,
+        language: {
+            lang: req.body._lang,
+            currency: req.body._currency
+        },
+        address: {
+            houseno: req.body._houseno,
+            street: req.body._street,
+            city: req.body._city,
+            state: req.body._state,
+            zipcode: req.body._zipcode,
+            country: req.body._country,
+        },
+        emergencyData: {
+            emname: req.body._emname,
+            emnumber: req.body._emnumber,
+            emrelationship: req.body._emrelationship,
+            ememail: req.body._ememail,
+            emlanguage: req.body._emlanguage,
+
+        },
+        idproof: {
+            issu_country: req.body.issu_country,
+            type: req.body._type,
+            name: req.body._name,
+            // front: req.files.front[0]["filename"],
+            // back: req.files.back[0]["filename"],
+            // user: req.body.user
+
+        },
+        // selfie: req.files.selfie[0]["filename"],
+
+    },
+        function (err, data) {
+            if (err) {
+                console.log(err)
+            }
+            else {
+                console.log("Updated User : ", data);
+                res.send({ message: "user registered", data })
+            }
+        });
+})
 
 
 app.post("/selfie", idimages, (req, res) => {
