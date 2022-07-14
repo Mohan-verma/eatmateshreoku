@@ -85,7 +85,10 @@ app.post("/google", (req, res) => {
 
 
     token.save()
-        .then((done) => res.send({ message: done }))
+        .then((resolve) =>
+
+            res.status(201).send({ message: " number registered", data: resolve })
+        )
         .catch(err => {
             // res.send({ code: err })
 
@@ -130,7 +133,8 @@ app.post("/facebook", (req, res) => {
 
 
     facebookuser.save()
-        .then((done) => res.send({ message: done }))
+        .then((resolve) =>
+            res.status(201).send({ message: " number registered", data: resolve }))
         .catch(err => {
             console.log(err)
             FacebookSign.find({ phoneNo: req.body.number }, function (err, data) {
