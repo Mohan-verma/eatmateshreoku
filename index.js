@@ -66,7 +66,7 @@ app.get("/", (req, res) => {
 //     res.send(`THIS IS SERVER FOR EAT paths to post `)
 // })
 
-
+console.log("google point")
 //google registeration
 app.post("/google", (req, res) => {
 
@@ -108,6 +108,8 @@ app.post("/google", (req, res) => {
 
 
 })
+
+console.log("facebook point")
 
 //facebook registration and login
 
@@ -153,6 +155,8 @@ app.post("/facebook", (req, res) => {
 })
 
 
+console.log("user login point")
+
 // sent opt to mobile number
 
 app.post("/login", (req, res) => {
@@ -188,9 +192,7 @@ app.post("/login", (req, res) => {
 
 })
 
-app.post("/lekin", (req, res) => {
-    console.log(req.body)
-})
+console.log("verify checkpoint")
 
 // check verified code of number
 app.post('/verify', (req, res) => {
