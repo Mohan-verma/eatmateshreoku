@@ -188,7 +188,9 @@ app.post("/login", (req, res) => {
 
 })
 
-
+app.post("/lekin", (req, res) => {
+    console.log(req.body)
+})
 
 // check verified code of number
 app.post('/verify', (req, res) => {
