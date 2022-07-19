@@ -370,7 +370,7 @@ app.put("/user-details", idimages, (req, res) => {
             // user: req.body.user
 
         },
-        // selfie: req.files.selfie[0]["filename"],
+        selfie: req.body._selfie,
 
     },
         function (err, data) {
