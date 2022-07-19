@@ -106,7 +106,8 @@ const userSchema = new mongoose.Schema({
         },
     },
     selfie: {
-        data: Buffer
+        data: Buffer,
+        contentType: String
     },
 
 })

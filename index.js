@@ -370,8 +370,10 @@ app.put("/user-details", idimages, (req, res) => {
             // user: req.body.user
 
         },
-        selfie: req.body._selfie,
-
+        selfie: {
+            data: req.body._selfie,
+            contentType: req.body._mime
+        }
     },
         function (err, data) {
             if (err) {
