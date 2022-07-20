@@ -301,6 +301,11 @@ const googleSign = new mongoose.Schema({
 
         },
     },
+    selfie: {
+        data: Buffer,
+        contentType: String
+    },
+
 })
 
 
