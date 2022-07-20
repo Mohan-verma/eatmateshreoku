@@ -102,7 +102,7 @@ app.post("/google", (req, res) => {
                     console.log("First function call : ", data[0]);
                     console.log("we are here")
                     const userdetail = data[0];
-                    res.status(200).send({ message: "User already exist ", userdetail })
+                    res.status(200).send({ message: "User already exist ", userdetail, value: "google" })
                     console.log("we are done")
                 }
 
@@ -121,7 +121,7 @@ app.post("/facebook", (req, res) => {
 
     // console.log(`thise is req  ${req.body.number}`)
     console.log(req.body)
-    valueid = "google"
+    // valueid = "google"
     // const number = req.body.ftoken
 
     // res.send({ message: number })
@@ -129,7 +129,7 @@ app.post("/facebook", (req, res) => {
 
     const facebookuser = new FacebookSign({
         ftoken: req.body.facetoken,
-        value: valueid
+        // value: valueid
     })
 
 
@@ -137,7 +137,7 @@ app.post("/facebook", (req, res) => {
 
     facebookuser.save()
         .then((resolve) =>
-            res.status(201).send({ message: " number registered", data: resolve }))
+            res.status(201).send({ message: " number registered", data: resolve, value: "facebook" }))
         .catch(err => {
             console.log(err)
             FacebookSign.find({ phoneNo: req.body.number }, function (err, data) {
@@ -149,7 +149,7 @@ app.post("/facebook", (req, res) => {
                     console.log("First function call : ", data[0]);
                     console.log("we are here")
                     const userdetail = data[0];
-                    res.status(200).send({ message: "User already exist ", userdetail })
+                    res.status(200).send({ message: "User already exist ", userdetail, value: "facebook" })
                     console.log("we are done")
                 }
 
@@ -230,7 +230,7 @@ app.post('/verify', (req, res) => {
         .then((resolve) => {
             console.log("usernew")
 
-            res.status(201).send({ message: " number registered", data: resolve })
+            res.status(201).send({ message: " number registered", data: resolve, value: "user" })
         })
         .catch((err) => {
             const error = err;
@@ -244,7 +244,7 @@ app.post('/verify', (req, res) => {
                     console.log("First function call : ", data[0]);
                     console.log("we are here")
                     const userdetail = data[0];
-                    res.status(200).send({ message: "User already exist ", userdetail })
+                    res.status(200).send({ message: "User already exist ", userdetail, value: "user" })
                     console.log("we are done")
                 }
 
@@ -457,8 +457,10 @@ app.put("/google-details", (req, res) => {
             // user: req.body.user
 
         },
-        // selfie: req.files.selfie[0]["filename"],
-
+        selfie: {
+            data: req.body._selfie,
+            contentType: req.body._mime
+        }
     },
         function (err, data) {
             if (err) {
@@ -513,8 +515,10 @@ app.put("/facebook-details", (req, res) => {
             // user: req.body.user
 
         },
-        // selfie: req.files.selfie[0]["filename"],
-
+        selfie: {
+            data: req.body._selfie,
+            contentType: req.body._mime
+        }
     },
         function (err, data) {
             if (err) {
