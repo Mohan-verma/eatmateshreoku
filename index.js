@@ -417,7 +417,7 @@ app.put("/user-details", idimages, (req, res) => {
 //google details update
 app.put("/google-details", (req, res) => {
 
-    user_id = req.body.regid;
+    user_id = req.body.numberid;
     // console.log(user_id)
     // console.log(req.files)
     console.log("hello", req.body)
@@ -475,7 +475,7 @@ app.put("/google-details", (req, res) => {
 
 app.put("/facebook-details", (req, res) => {
 
-    user_id = req.body.regid;
+    user_id = req.body.numberid;
     // console.log(user_id)
     // console.log(req.files)
     console.log("hello", req.body)
