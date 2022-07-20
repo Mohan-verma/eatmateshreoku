@@ -79,7 +79,7 @@ app.post("/google", (req, res) => {
 
     const token = new GoogleSign({
         gtoken: req.body.token,
-        value: "google"
+        // value: "google"
     })
 
 
@@ -88,7 +88,7 @@ app.post("/google", (req, res) => {
     token.save()
         .then((resolve) =>
 
-            res.status(201).send({ message: " number registered", data: resolve })
+            res.status(201).send({ message: " google registered", data: resolve, value: "google" })
         )
         .catch(err => {
             // res.send({ code: err })
@@ -121,6 +121,7 @@ app.post("/facebook", (req, res) => {
 
     // console.log(`thise is req  ${req.body.number}`)
     console.log(req.body)
+    valueid = "google"
     // const number = req.body.ftoken
 
     // res.send({ message: number })
@@ -128,7 +129,7 @@ app.post("/facebook", (req, res) => {
 
     const facebookuser = new FacebookSign({
         ftoken: req.body.facetoken,
-        value: "facebook"
+        value: valueid
     })
 
 
