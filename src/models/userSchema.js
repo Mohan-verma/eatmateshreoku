@@ -418,6 +418,10 @@ const facebooksign = new mongoose.Schema({
 
         },
     },
+    selfie: {
+        data: Buffer,
+        contentType: String
+    },
 })
 
 
