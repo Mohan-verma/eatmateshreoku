@@ -93,7 +93,7 @@ app.post("/google", (req, res) => {
         .catch(err => {
             // res.send({ code: err })
 
-            GoogleSign.find({ phoneNo: req.body.number }, function (err, data) {
+            GoogleSign.find({ gtoken: req.body.token }, function (err, data) {
 
                 if (err) {
                     console.log(err);
