@@ -8,9 +8,7 @@ const userSchema = new mongoose.Schema({
         required: true,
         unique: [true, "THIS NUMBER ALREADY EXIST"]
     },
-    value: {
-        type: String,
-    },
+
     language: {
         lang: {
             type: String,
@@ -207,9 +205,7 @@ const googleSign = new mongoose.Schema({
 
 
         },
-        value: {
-            type: String,
-        },
+
         currency: {
             type: String,
 
@@ -318,9 +314,7 @@ const facebooksign = new mongoose.Schema({
         type: String,
         unique: [true, "already exist"]
     },
-    value: {
-        type: String,
-    },
+
     language: {
         lang: {
             type: String,
