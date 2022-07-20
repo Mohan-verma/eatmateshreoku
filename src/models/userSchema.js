@@ -8,6 +8,9 @@ const userSchema = new mongoose.Schema({
         required: true,
         unique: [true, "THIS NUMBER ALREADY EXIST"]
     },
+    value: {
+        type: String,
+    },
     language: {
         lang: {
             type: String,
@@ -117,6 +120,7 @@ const idProof = new mongoose.Schema({
         type: String,
         required: true,
     },
+
     type: {
         type: String,
         required: true,
@@ -186,6 +190,12 @@ const emegencySchema = new mongoose.Schema({
         },
     }
 })
+
+
+
+
+
+
 const googleSign = new mongoose.Schema({
     gtoken: {
         type: String,
@@ -196,6 +206,9 @@ const googleSign = new mongoose.Schema({
             type: String,
 
 
+        },
+        value: {
+            type: String,
         },
         currency: {
             type: String,
@@ -289,10 +302,19 @@ const googleSign = new mongoose.Schema({
         },
     },
 })
+
+
+
+
+
+
 const facebooksign = new mongoose.Schema({
     ftoken: {
         type: String,
         unique: [true, "already exist"]
+    },
+    value: {
+        type: String,
     },
     language: {
         lang: {

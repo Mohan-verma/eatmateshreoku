@@ -78,7 +78,8 @@ app.post("/google", (req, res) => {
 
 
     const token = new GoogleSign({
-        gtoken: req.body.token
+        gtoken: req.body.token,
+        value: "google"
     })
 
 
@@ -126,7 +127,8 @@ app.post("/facebook", (req, res) => {
 
 
     const facebookuser = new FacebookSign({
-        ftoken: req.body.facetoken
+        ftoken: req.body.facetoken,
+        value: "facebook"
     })
 
 
@@ -221,6 +223,7 @@ app.post('/verify', (req, res) => {
 
     const user = new User({
         phoneNo: req.body.number,
+        verify: "user"
     })
     user.save()
         .then((resolve) => {
